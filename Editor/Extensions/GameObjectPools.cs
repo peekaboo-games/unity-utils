@@ -16,15 +16,15 @@ namespace MyUtils
     {
 
         // 可用的游戏对象列表
-        private readonly List<GameObject> gameObjects;
+        private List<GameObject> gameObjects;
 
         // 创建游戏对象的函数，如果游戏对象不够使用
-        private readonly Func<GameObject> createAction;
+        private Func<GameObject> createAction;
 
         // 后期销毁的函数
-        private readonly Action<GameObject> destroyAction;
+        private Action<GameObject> destroyAction;
         // 最大的对象个数
-        private readonly int maxCount;
+        private int maxCount;
 
         public GameObjectPools(Func<GameObject> createAction, Action<GameObject> destroyAction, int maxCount)
         {
@@ -78,17 +78,30 @@ namespace MyUtils
          * <summary>获取一个池子对象</summary>
          * <returns>结果</returns>
          */
-        public GameObject Pop()
+        public GameObject Get()
         {
+            return Get(t => { });
+        }
+
+        /**
+         * <summary>取一个元素，并初始化</summary>
+         * <param name="doInit">初始化</param>
+         * <returns>对象</returns>
+         */
+        public GameObject Get(Action<GameObject> doInit)
+        {
+            GameObject gameObject;
             // 如果池子存在，则取一个出来
             if (gameObjects.Count > 0)
             {
-                GameObject gameObject = gameObjects[0];
+                gameObject = gameObjects[0];
                 gameObjects.RemoveAt(0);
+                doInit(gameObject);
                 return gameObject;
             }
-
-            return createAction();
+            gameObject = createAction();
+            doInit(gameObject);
+            return gameObject;
         }
 
         /**
@@ -96,9 +109,21 @@ namespace MyUtils
          * <param name="source">要移除的对象</param>
          * <returns>处理结果，true成功，false失败</returns>
          */
-        public bool Push(GameObject source)
+        public bool Released(GameObject source)
+        {
+            return Released(source, t => { });
+        }
+
+        /**
+         * <summary>释放一个资源</summary>
+         * <param name="source">释放的资源</param>
+         * <param name="doRelease">释放的方式</param>
+         */
+        public bool Released(GameObject source, Action<GameObject> doRelease)
         {
             Assert.IsNotNull(source, "GameObjectPool remove element is not null.");
+            Assert.IsNotNull(doRelease, "GameObjectPool doRelease is not null.");
+            doRelease(source);
             if (gameObjects.Count >= maxCount)
             {
                 destroyAction(source);
@@ -116,9 +141,26 @@ namespace MyUtils
          */
         public void Destroy()
         {
+            Destroy(t => { });
+        }
+
+        /**
+         * <summary>销毁对象池</summary>
+         * <param name="preDestory">前置迭代函数</param>
+         * 
+         */
+        public void Destroy(Action<GameObject> preDestory)
+        {
             //销毁全部对象
-            gameObjects.ForEach(destroyAction);
+            gameObjects.ForEach(t =>
+            {
+                preDestory(t);
+                destroyAction(t);
+            });
             gameObjects.Clear();
+            destroyAction = null;
+            createAction = null;
+            maxCount = 0;
         }
     }
 }
