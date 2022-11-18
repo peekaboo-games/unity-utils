@@ -76,32 +76,30 @@ namespace MyUtils
 
             return (T)obj;
         }
+    }
+
+    /**
+    * <summary>初始化一个trigger animator trigger</summary>
+    */
+    public class AnimTrigger
+    {
+        public readonly Animator animator;
+
+        public readonly string paramName;
+
+        public AnimTrigger(Animator animator, string paramName)
+        {
+            this.animator = animator;
+            this.paramName = paramName;
+        }
+
 
         /**
-         * <summary>初始化一个trigger animator setter</summary>
+         * 触发一下事件
          */
-        public class Trigger : AnimSetter<bool>
+        public void Trigger()
         {
-            public Trigger(Animator animator, string paramName) : base(animator, paramName)
-            { }
-
-            public override AnimSetter<bool> Set(bool value)
-            {
-                throw new Exception("Animator trigger type not supported");
-            }
-
-            public override bool Get()
-            {
-                throw new Exception("Animator trigger type not supported");
-            }
-
-            /**
-             * 触发一下事件
-             */
-            public void DoTrigger()
-            {
-                this.animator.SetTrigger(paramName);
-            }
+            this.animator.SetTrigger(paramName);
         }
     }
 
