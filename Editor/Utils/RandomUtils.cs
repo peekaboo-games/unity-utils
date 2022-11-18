@@ -25,10 +25,10 @@ namespace MyUtils
          * <param name="array">数组</param>
          * <returns>随机元素</returns>
          */
-        public static T GetOneUnityObject<T>(T[] array) where T : UnityEngine.Object
+        public static Optional<T> GetOneUnityObject<T>(T[] array) where T : UnityEngine.Object
         {
             int index = GetIndex<T>(array);
-            return index == -1 ? null : array[index];
+            return index == -1 ? Optional<T>.OfNullable() : Optional<T>.Of(array[index]);
         }
 
 

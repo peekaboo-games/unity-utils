@@ -25,7 +25,7 @@ namespace MyUtils
          * <summary>设置值</summary>
          * <param name="value">要设置的值</param>
          */
-        public AnimSetter<T> Set(T value)
+        public virtual AnimSetter<T> Set(T value)
         {
             Type dataType = typeof(T);
 
@@ -52,7 +52,7 @@ namespace MyUtils
          * <summary>获取特定参数的值</summary>
          * <returns>数据值</returns>
          */
-        public T Get()
+        public virtual T Get()
         {
             Type dataType = typeof(T);
             object obj;
@@ -75,6 +75,33 @@ namespace MyUtils
             }
 
             return (T)obj;
+        }
+
+        /**
+         * <summary>初始化一个trigger animator setter</summary>
+         */
+        public class Trigger : AnimSetter<bool>
+        {
+            public Trigger(Animator animator, string paramName) : base(animator, paramName)
+            { }
+
+            public override AnimSetter<bool> Set(bool value)
+            {
+                throw new Exception("Animator trigger type not supported");
+            }
+
+            public override bool Get()
+            {
+                throw new Exception("Animator trigger type not supported");
+            }
+
+            /**
+             * 触发一下事件
+             */
+            public void DoTrigger()
+            {
+                this.animator.SetTrigger(paramName);
+            }
         }
     }
 
