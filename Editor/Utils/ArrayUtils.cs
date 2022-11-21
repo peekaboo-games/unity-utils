@@ -134,10 +134,10 @@ namespace MyUtils
 
         /**
          * <summary>将元素转换成数组</summary>
-         * 
-         * 
+         * <param name="arg1">参数1</param>
+         * <param name="args">可变参数</param>
          */
-        public static T[] As<T>(T arg1, T[] args)
+        public static T[] As<T>(T arg1, params T[] args)
         {
             //如果后面的参数不存在，则直接返回
             if (args == null || args.Length == 0)
