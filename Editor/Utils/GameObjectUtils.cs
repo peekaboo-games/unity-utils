@@ -85,7 +85,7 @@ namespace MyUtils
         public static Optional<T> GetComponent<T>(Transform parent, string name) where T : Component
         {
             Optional<GameObject> g = FindByName(parent, name);
-            if (g.IsPresent())
+            if (!g.IsPresent())
             {
                 return Optional<T>.OfNullable();
             }
