@@ -23,9 +23,11 @@ namespace MyUtils
             {
                 return Optional<GameObject>.OfNullable();
             }
-            // 获取子物体
-            foreach (Transform tf in parent)
+            // 迭代子物体
+            Transform tf;
+            for (int i = 0; i < parent.childCount; i++)
             {
+                tf = parent.GetChild(i);
                 // 查到第一个为止
                 if (tf.name == name)
                 {
@@ -57,9 +59,11 @@ namespace MyUtils
                 return list;
             }
 
-            // 获取子物体
-            foreach (Transform tf in parent)
+            // 迭代子物体
+            Transform tf;
+            for (int i = 0; i < parent.childCount; i++)
             {
+                tf = parent.GetChild(i);
                 // 检查当前物体
                 if (tf.tag == tagName)
                 {
