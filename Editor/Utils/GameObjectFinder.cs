@@ -8,9 +8,8 @@ namespace MyUtils
      * <summary>游戏对象工具类</summary>
      * 
      */
-    public class GameObjectUtils
-    {
-
+    public class GameObjectFinder
+    {   
         /**
          * <summary>递归获取特定名称的子物体，递归获取，不包含当前物体</summary>
          * <param name="parent">查询的父物体</param>

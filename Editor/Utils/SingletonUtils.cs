@@ -48,5 +48,14 @@ namespace MyUtils
             Optional<K> optional = Get<K>(name);
             return optional.OrElseThrow(() => new System.Exception($"{name} value is null."));
         }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="name">资源名称</param>
+        /// <returns>删除结果</returns>
+        public static bool Delete(string name) {
+            return __instances.Remove(name);
+        }
     }
 }
