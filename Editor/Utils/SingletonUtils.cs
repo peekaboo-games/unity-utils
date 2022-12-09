@@ -6,7 +6,7 @@ namespace MyUtils
      * <summary>单例工具类</summary>
      * <typeparam name="T">单例类型，需要实现 enum</typeparam>
      */
-    public class SingleTonUtils
+    public class SingletonUtils
     {
 
         private static Dictionary<string, object> __instances = new();

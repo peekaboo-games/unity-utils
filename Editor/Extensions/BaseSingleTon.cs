@@ -5,10 +5,10 @@ using UnityEngine;
 namespace MyUtils
 {
     /// <summary>
-    /// 单例对象基础类，使用此对象以后，可以通过 SingleTonUtils.Get(T.name)来获取
+    /// 单例对象基础类，使用此对象以后，可以通过 SingletonUtils.Get(T.name)来获取
     /// </summary>
     /// <typeparam name="T">对象类型</typeparam>
-    public abstract class BaseSingleTon<T> : MonoBehaviour where T : Component
+    public abstract class BaseSingleton<T> : MonoBehaviour where T : Component
     {
 
         private static T instance;
@@ -25,7 +25,7 @@ namespace MyUtils
                     if (instance == null) {
                         GameObject game = new(typeof(T).Name);
                         instance = game.AddComponent<T>();
-                        SingleTonUtils.Add(typeof(T).Name,  instance);
+                        SingletonUtils.Add(typeof(T).Name,  instance);
                     }
                 }
                 return instance;
@@ -57,7 +57,7 @@ namespace MyUtils
 
         public virtual void OnDestroy()
         {
-            SingleTonUtils.Delete(typeof(T).Name);
+            SingletonUtils.Delete(typeof(T).Name);
         }
     }
  }
