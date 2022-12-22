@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+
 namespace MyUtils
 {
     /**
@@ -44,6 +46,31 @@ namespace MyUtils
                 return -1;
             }
             return UnityEngine.Random.Range(0, array.Length);
+        }
+
+        /// <summary>
+        /// 随机从列表中取出特定数量的元素
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="array">数组</param>
+        /// <param name="size">数量</param>
+        /// <returns>结果</returns>
+        public static T[] GetList<T>(T[] array,int size) {
+            // 如果数量不够，就不随机了
+            if (array.Count() <= size ) {
+                return array;
+            }
+            if (size < 1) {
+                return new T[0];
+            }
+            //随机起始位置
+            int start = UnityEngine.Random.Range(0, array.Count() - size);
+            T[] list = new T[size];
+            int count = 0;
+            for (var i = start;i < start + size; i ++) {
+                list[count++] = array[i];
+            }
+            return list;
         }
     }
 
