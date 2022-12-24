@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Codice.CM.Common;
+using System;
 namespace MyUtils
 {
     /**
@@ -29,6 +30,7 @@ namespace MyUtils
             return new Optional<T>(data);
         }
 
+
         /**
          * <summary>初始化一个空对象</summary>
          * 
@@ -45,6 +47,16 @@ namespace MyUtils
         public bool IsPresent()
         {
             return data != null;
+        }
+
+        /// <summary>
+        /// 如果存在则执行消费函数
+        /// </summary>
+        /// <param name="consumer">消费函数</param>
+        public void IfPresent(Action<T> consumer) {
+            if (IsPresent()) {
+                consumer(data);
+            }
         }
 
         /**
@@ -74,6 +86,31 @@ namespace MyUtils
                 throw new Exception(message);
             }
             return data;
+        }
+
+        /// <summary>
+        /// 如果值存在，并且这个值匹配给定的 predicate，返回一个Optional用以描述这个值，否则返回一个空的Optional。
+        /// </summary>
+        /// <param name="predicate">过滤函数</param>
+        /// <returns>结果</returns>
+        public Optional<T> Filter(Func<T, Optional<T>> predicate) {
+            if (IsPresent()) {
+                return predicate(data);
+            }
+            return this;
+        }
+        /// <summary>
+        /// 如果值存在，返回基于Optional包含的映射方法的值，否则返回一个空的Optional
+        /// </summary>
+        /// <typeparam name="U">新的类型</typeparam>
+        /// <param name="mapper">转换函数</param>
+        /// <returns>结果</returns>
+        public Optional<U> FlatMap<U>(Func<T, Optional<U>> mapper) {
+            if (IsPresent())
+            {
+                return mapper(data);
+            }
+            return Optional<U>.OfNullable();
         }
 
         public T OrElseThrow(Exception exception)
