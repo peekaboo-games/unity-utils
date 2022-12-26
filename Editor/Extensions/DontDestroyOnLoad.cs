@@ -8,16 +8,16 @@ namespace MyUtils
     /// <summary>
     /// 将物体转换为跨场景长存物体，相当于单例物体
     /// </summary>
-    public class DontDestroyOnLoad : MonoBehaviour
+    public class DontDestroyOnLoad<T> : MonoBehaviour
     {
 
         /// <summary>
         /// 游戏物体的唯一名字
         /// </summary>
-        public string GameObjectName;
+        public string GameObjectName = typeof(T).Name;
 
         // 存储不销毁的游戏对象
-        private static Dictionary<string, GameObject> GameObjects = new Dictionary<string, GameObject>();
+        private static readonly Dictionary<string, GameObject> GameObjects = new();
 
 
         /// <summary>
@@ -27,6 +27,45 @@ namespace MyUtils
         /// <returns>对象</returns>
         public static Optional<GameObject> Get(string _objectName) {
             return Optional<GameObject>.Of(GameObjects[_objectName]);
+        }
+
+        /// <summary>
+        /// 根据默认
+        /// </summary>
+        /// <typeparam name="K"></typeparam>
+        /// <returns></returns>
+        public static Optional<GameObject> Get<K>()
+        {
+            return Optional<GameObject>.Of(GameObjects[typeof(K).Name]);
+        }
+
+
+        /// <summary>
+        /// 获取当前的实例
+        /// </summary>
+        /// <typeparam name="K">实例类型</typeparam>
+        /// <param name="_objectName">对象名称</param>
+        /// <returns></returns>
+        public static Optional<K> GetInstance<K>(string _objectName) {
+            Optional<GameObject> optional = Get(_objectName);
+            if (optional.IsPresent()) {
+                return Optional<K>.Of(optional.Get().GetComponent<K>());
+            }
+            return Optional<K>.OfNullable();
+        }
+
+        /// <summary>
+        /// 获取实例，实例名称是默认名称
+        /// </summary>
+        /// <typeparam name="K">类型</typeparam>
+        /// <returns>实例</returns>
+        public static Optional<K> GetInstance<K>() {
+            Optional<GameObject> optional = Get<K>();
+            if (optional.IsPresent())
+            {
+                return Optional<K>.Of(optional.Get().GetComponent<K>());
+            }
+            return Optional<K>.OfNullable();
         }
 
         /// <summary>
