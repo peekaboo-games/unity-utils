@@ -39,6 +39,21 @@ namespace MyUtils
             return Optional<GameObject>.Of(GameObjects[typeof(K).Name]);
         }
 
+        /// <summary>
+        /// 强制获取一个 GameObject， 如果不存在则抛出异常
+        /// </summary>
+        /// <typeparam name="K"></typeparam>
+        /// <returns></returns>
+        /// <exception cref="System.Exception"></exception>
+        public static GameObject RequiredGet<K>() {
+            Optional<GameObject> optional = Get<K>();
+            if (!optional.IsPresent())
+            {
+                throw new System.Exception($"[{typeof(K).Name}]DontDestroyOnLoad is not found.");
+            }
+            return optional.Get();
+        }
+
 
         /// <summary>
         /// 获取当前的实例
@@ -66,6 +81,20 @@ namespace MyUtils
                 return Optional<K>.Of(optional.Get().GetComponent<K>());
             }
             return Optional<K>.OfNullable();
+        }
+
+        /// <summary>
+        /// 强制获取实例
+        /// </summary>
+        /// <typeparam name="K">实例类型</typeparam>
+        /// <returns></returns>
+        /// <exception cref="System.Exception"></exception>
+        public static K RequiredGetInstance<K>() {
+            Optional<K> optional = GetInstance<K>();
+            if (!optional.IsPresent()) {
+                throw new System.Exception($"[{typeof(K).Name}]DontDestroyOnLoad is not found.");
+            }
+            return optional.Get();
         }
 
         /// <summary>
