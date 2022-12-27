@@ -232,5 +232,48 @@ namespace MyUtils
             return arrays;
         }
 
+        /// <summary>
+        /// 计算数组中
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="array">数组</param>
+        /// <param name="search">查找的对象</param>
+        /// <returns>出现的次数</returns>
+        public static int Count<T>(T[] array, T search) {
+            if (array == null || search == null) {
+                return 0;
+            }
+            int count = 0;
+            foreach (T o in array) {
+                if (o.Equals(search)) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// 计算数组中
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="array">集合</param>
+        /// <param name="search">查找的对象</param>
+        /// <returns>出现的次数</returns>
+        public static int Count<T>(List<T> array, T search)
+        {
+            if (array == null || search == null)
+            {
+                return 0;
+            }
+            int count = 0;
+            foreach (T o in array)
+            {
+                if (o.Equals(search))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
     }
 }
