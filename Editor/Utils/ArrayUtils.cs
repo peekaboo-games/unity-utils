@@ -184,13 +184,16 @@ namespace MyUtils
         /// <typeparam name="T">集合类型</typeparam>
         /// <param name="collection">集合元数据</param>
         /// <returns>数组</returns>
-        public static T[] CollectionToArray<T>(List<T> collection) {
-            if (collection == null) {
+        public static T[] CollectionToArray<T>(List<T> collection)
+        {
+            if (collection == null)
+            {
                 return null;
             }
 
             T[] array = new T[collection.Count];
-            for (var i = 0;i < collection.Count;i ++) {
+            for (var i = 0; i < collection.Count; i++)
+            {
                 array[i] = collection[i];
             }
             return array;
@@ -209,7 +212,8 @@ namespace MyUtils
                 return null;
             }
             List<T> collection = new List<T>();
-            foreach (var o in array) {
+            foreach (var o in array)
+            {
                 collection.Add(o);
             }
             return collection;
@@ -239,13 +243,17 @@ namespace MyUtils
         /// <param name="array">数组</param>
         /// <param name="search">查找的对象</param>
         /// <returns>出现的次数</returns>
-        public static int Count<T>(T[] array, T search) {
-            if (array == null || search == null) {
+        public static int Count<T>(T[] array, T search)
+        {
+            if (array == null || search == null)
+            {
                 return 0;
             }
             int count = 0;
-            foreach (T o in array) {
-                if (o.Equals(search)) {
+            foreach (T o in array)
+            {
+                if (o.Equals(search))
+                {
                     count++;
                 }
             }
