@@ -178,6 +178,42 @@ namespace MyUtils
             return arrays;
         }
 
+        /// <summary>
+        /// 集合转换成数组
+        /// </summary>
+        /// <typeparam name="T">集合类型</typeparam>
+        /// <param name="collection">集合元数据</param>
+        /// <returns>数组</returns>
+        public static T[] CollectionToArray<T>(List<T> collection) {
+            if (collection == null) {
+                return null;
+            }
+
+            T[] array = new T[collection.Count];
+            for (var i = 0;i < collection.Count;i ++) {
+                array[i] = collection[i];
+            }
+            return array;
+        }
+
+        /// <summary>
+        /// 数组转换成集合
+        /// </summary>
+        /// <typeparam name="T">对象类型</typeparam>
+        /// <param name="array">数组</param>
+        /// <returns>结合</returns>
+        public static List<T> ArrayToCollection<T>(T[] array)
+        {
+            if (array == null)
+            {
+                return null;
+            }
+            List<T> collection = new List<T>();
+            foreach (var o in array) {
+                collection.Add(o);
+            }
+            return collection;
+        }
 
         public static object[] AsObject(object arg1, params object[] args)
         {
