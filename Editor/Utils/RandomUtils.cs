@@ -72,7 +72,7 @@ namespace MyUtils
             {
                 if (precent > 0)
                 {
-                    list.Add(new PrecentObject<T>(o, totalPrecent));
+                    list.Add(new PrecentObject<T>(o, totalPrecent, totalPrecent + precent));
                     totalPrecent += precent;
                 }
             }
@@ -84,7 +84,7 @@ namespace MyUtils
             // 开始随机获取
             for (var i = 0; i < list.Count; i++)
             {
-                if (list[i].Precent >= randomNum)
+                if (randomNum >= list[i].Min && randomNum < list[i].Max)
                 {
                     return Optional<T>.Of(list[i].Target);
                 }
@@ -140,17 +140,21 @@ namespace MyUtils
 
 public class PrecentObject<T>
 {
-    public PrecentObject(T target, int precent)
+    public PrecentObject(T target, int min, int max)
     {
         Target = target;
-        Precent = precent;
+        Min = min;
+        Max = max;
     }
+
 
     /// <summary>
     /// 对象
     /// </summary>
     public T Target { get; private set; }
 
-    //百分比
-    public int Precent { get; private set; }
+    //百分比，最小，包含
+    public int Min { get; private set; }
+    // 最大，不包含
+    public int Max { get; private set; }
 }
