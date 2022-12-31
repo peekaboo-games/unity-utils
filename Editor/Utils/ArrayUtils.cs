@@ -120,12 +120,9 @@ namespace MyUtils
             {
                 return sources;
             }
-            for (var i = 0; i < needSize; i++)
-            {
-                if (sources[i] == null)
-                {
-                    sources[i] = def(i);
-                }
+
+            while (sources.Count < needSize) {
+                sources.Add(def(sources.Count));
             }
             return sources;
         }
