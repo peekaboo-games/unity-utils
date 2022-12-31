@@ -55,7 +55,7 @@ namespace MyUtils
         /// <returns>元素</returns>
         public static Optional<T> GetOneOfPrecentList<T>(Dictionary<T, int> precents)
         {
-            return GetOneOfPrecentList(precents, Random.Range(0, 100));
+            return GetOneOfPrecentList(precents, UnityEngine.Random.Range(0, 100));
         }
 
         /// <summary>
