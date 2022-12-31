@@ -90,6 +90,45 @@ namespace MyUtils
             }
         }
 
+        /// <summary>
+        /// 检查数量是否满足要求，如果不满足则通过def生成
+        /// </summary>
+        /// <typeparam name="T">元素类型</typeparam>
+        /// <param name="sources">原始元素</param>
+        /// <param name="needSize">需要的数量</param>
+        /// <param name="def">生成函数</param>
+        /// <returns>处理后的列表</returns>
+        public static T[] CheckIfNotEnough<T>(T[] sources, int needSize, Func<int, T> def)
+        {
+            return CheckIfNotEnough(sources == null ? null : sources.ToList(), needSize, def).ToArray();
+        }
+
+        /// <summary>
+        /// 检查数量是否满足要求，如果不满足则通过def生成
+        /// </summary>
+        /// <typeparam name="T">元素类型</typeparam>
+        /// <param name="sources">原始元素</param>
+        /// <param name="needSize">需要的数量</param>
+        /// <param name="def">生成函数</param>
+        /// <returns>处理后的列表</returns>
+        public static List<T> CheckIfNotEnough<T>(List<T> sources, int needSize, Func<int, T> def)
+        {
+            // 检查是否存在
+            sources = sources == null ? new List<T>() : sources;
+            // 数量如果已经满足，则直接返回
+            if (sources.Count >= needSize)
+            {
+                return sources;
+            }
+            for (var i = 0; i < needSize; i++)
+            {
+                if (sources[i] == null)
+                {
+                    sources[i] = def(i);
+                }
+            }
+            return sources;
+        }
         /**
          * <summary>移除或设置字段值，如果字段的list为空，则移除，否则设置</summary>
          * 
