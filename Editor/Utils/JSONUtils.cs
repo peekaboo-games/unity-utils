@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Text;
 using Newtonsoft.Json;
@@ -16,6 +17,8 @@ public class JSONUtils
     {
         File.WriteAllText(Application.persistentDataPath + fileName, JsonConvert.SerializeObject(data));
     }
+
+
 
     /**
     * <summary>保存一个json对象，文件名是 typeof name</summary>

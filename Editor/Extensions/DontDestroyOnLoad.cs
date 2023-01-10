@@ -118,7 +118,7 @@ namespace MyUtils
         private void Awake()
         {
             // 先查询是否存在，如果存在则直接删除
-            if (GameObject.Find(GameObjectName) != null) {
+            if (GameObject.Find(GameObjectName) != null || GameObjects.ContainsKey(GameObjectName)) {
                 Destroy(gameObject);
                 return;
             }
