@@ -319,5 +319,27 @@ namespace MyUtils
             }
             return count;
         }
+
+        /// <summary>
+        /// 从list中移除符合条件的元素列表
+        /// </summary>
+        /// <typeparam name="T">类型</typeparam>
+        /// <param name="source">数据源</param>
+        /// <param name="checkOfNeedRemoved">检查的函数， true 表示要删除</param>
+        /// <returns>本次移除的列表</returns>
+        public static List<T> Remove<T>(List<T> source, Func<T, bool> checkOfNeedRemoved) {
+            if (source == null || checkOfNeedRemoved == null) {
+                return null;
+            }
+            List<T> removes = new();
+            foreach (var o in source) {
+                if (checkOfNeedRemoved(o)) {
+                    removes.Add(o);
+                }
+            }
+            // 开始移除
+            removes.ForEach(o => source.Remove(o));
+            return removes;
+        }
     }
 }
