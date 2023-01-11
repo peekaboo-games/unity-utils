@@ -10,15 +10,20 @@ namespace MyUtils
 
         public T data { private set; get; }
 
-        public T Nullable { private set; get; }
+        /// <summary>
+        /// 是否已经设置过，这个变量用于处理 非空数据类型，如果非空数据类型，调用了 Of 则认为有值
+        /// </summary>
+        private bool isSetted = false;
 
         private Optional(T data)
         {
             this.data = data;
+            isSetted = true;
         }
 
         private Optional()
         {
+            isSetted = false;
         }
 
         /// <summary>
@@ -28,7 +33,7 @@ namespace MyUtils
         private bool IsNullable() {
             if (typeof(T).IsValueType && !typeof(T).IsEnum)
             {
-                return data.Equals(Nullable);
+                return isSetted;
             }
             return data == null;
         }
@@ -42,42 +47,15 @@ namespace MyUtils
             return new Optional<T>(data);
         }
 
-        /// <summary>
-        /// 对于struct/int等非空类型的初始化操作
-        /// </summary>
-        /// <param name="data">当前值</param>
-        /// <param name="nullable">默认值/null值</param>
-        /// <returns>新的对象</returns>
-        public static Optional<T> Of(T data, T nullable)
-        {
-            var opt = new Optional<T>(data);
-            opt.Nullable = nullable;
-            return opt;
-        }
-
         /**
          * <summary>初始化一个空对象</summary>
          * 
          */
         public static Optional<T> OfNullable()
         {
-            if (typeof(T).IsValueType && !typeof(T).IsEnum) {
-                throw new Exception($"Optional T type is '{typeof(T)}' and it is unsupport 'OfNullable' method.");
-            }
             return new Optional<T>();
         }
 
-        /// <summary>
-        /// 处理不能为空的数据类型，空状态
-        /// </summary>
-        /// <param name="nullable">该类型的空对象</param>
-        /// <returns>对象</returns>
-        public static Optional<T> OfNullable(T nullable)
-        {
-            var opt = new Optional<T>();
-            opt.Nullable = nullable;
-            return opt;
-        }
 
         /**
          * <summary>数据是否存在，是否为空</summary>
@@ -96,16 +74,6 @@ namespace MyUtils
             if (IsPresent()) {
                 consumer(data);
             }
-        }
-
-        /// <summary>
-        /// 设置值
-        /// </summary>
-        /// <param name="dd"></param>
-        /// <returns></returns>
-        public Optional<T> Set(T dd) {
-            this.data = dd;
-            return this;
         }
 
         /**
