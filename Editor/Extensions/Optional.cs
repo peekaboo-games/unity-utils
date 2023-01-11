@@ -20,6 +20,28 @@ namespace MyUtils
         {
         }
 
+        /// <summary>
+        /// 是否结构体
+        /// </summary>
+        /// <returns>结构体结果</returns>
+        private bool IsStructType() {
+            Type type = typeof(T);
+            return type.IsValueType && !type.IsEnum && !type.IsPrimitive;
+        }
+        /// <summary>
+        /// 是否为空的判断
+        /// </summary>
+        /// <returns>结果 true 空，false 非空</returns>
+        private bool IsNullable() {
+            if (IsStructType()) {
+                return data.Equals(default(T));
+            }
+            if (!typeof(T).IsValueType) {
+                return data == null;
+            }
+            return false;
+        }
+
         /**
          * <summary>基于特定值初始化</summary>
          * <param name="data">初始化的源数据</param>
@@ -45,7 +67,7 @@ namespace MyUtils
          */
         public bool IsPresent()
         {
-            return data != null;
+            return IsNullable();
         }
 
         /// <summary>
@@ -70,17 +92,17 @@ namespace MyUtils
 
         public T OrElse(T other)
         {
-            return data == null ? other : data;
+            return IsNullable() ? other : data;
         }
 
         public T OrElseGet(Func<T> other)
         {
-            return data == null ? other() : data;
+            return IsNullable() ? other() : data;
         }
 
         public T OrElseThrow(string message)
         {
-            if (data == null)
+            if (IsNullable())
             {
                 throw new Exception(message);
             }
@@ -114,7 +136,7 @@ namespace MyUtils
 
         public T OrElseThrow(Exception exception)
         {
-            if (data == null)
+            if (IsNullable())
             {
                 throw exception;
             }
@@ -123,7 +145,7 @@ namespace MyUtils
 
         public T OrElseThrow(Func<Exception> action)
         {
-            if (data == null)
+            if (IsNullable())
             {
                 throw action();
             }
