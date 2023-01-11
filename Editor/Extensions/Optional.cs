@@ -10,6 +10,7 @@ namespace MyUtils
 
         public readonly T data;
 
+        public T Nullable { private set; get; }
 
         private Optional(T data)
         {
@@ -25,6 +26,10 @@ namespace MyUtils
         /// </summary>
         /// <returns>结果 true 空，false 非空</returns>
         private bool IsNullable() {
+            if (typeof(T).IsValueType && !typeof(T).IsEnum)
+            {
+                return data.Equals(Nullable);
+            }
             return data == null;
         }
 
@@ -37,6 +42,18 @@ namespace MyUtils
             return new Optional<T>(data);
         }
 
+        /// <summary>
+        /// 对于struct/int等非空类型的初始化操作
+        /// </summary>
+        /// <param name="data">当前值</param>
+        /// <param name="nullable">默认值/null值</param>
+        /// <returns>新的对象</returns>
+        public static Optional<T> Of(T data, T nullable)
+        {
+            var opt = new Optional<T>(data);
+            opt.Nullable = nullable;
+            return opt;
+        }
 
         /**
          * <summary>初始化一个空对象</summary>
@@ -48,6 +65,18 @@ namespace MyUtils
                 throw new Exception($"Optional T type is '{typeof(T)}' and it is unsupport 'OfNullable' method.");
             }
             return new Optional<T>();
+        }
+
+        /// <summary>
+        /// 处理不能为空的数据类型，空状态
+        /// </summary>
+        /// <param name="nullable">该类型的空对象</param>
+        /// <returns>对象</returns>
+        public static Optional<T> OfNullable(T nullable)
+        {
+            var opt = new Optional<T>();
+            opt.Nullable = nullable;
+            return opt;
         }
 
         /**
