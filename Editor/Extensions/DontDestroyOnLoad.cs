@@ -61,7 +61,7 @@ namespace MyUtils
         /// <typeparam name="K">实例类型</typeparam>
         /// <param name="_objectName">对象名称</param>
         /// <returns></returns>
-        public static Optional<K> GetInstance<K>(string _objectName) where K : class
+        public static Optional<K> GetInstance<K>(string _objectName)
         {
             Optional<GameObject> optional = Get(_objectName);
             if (optional.IsPresent()) {
@@ -75,7 +75,7 @@ namespace MyUtils
         /// </summary>
         /// <typeparam name="K">类型</typeparam>
         /// <returns>实例</returns>
-        public static Optional<K> GetInstance<K>() where K : class {
+        public static Optional<K> GetInstance<K>(){
             Optional<GameObject> optional = Get<K>();
             if (optional.IsPresent())
             {
@@ -90,7 +90,7 @@ namespace MyUtils
         /// <typeparam name="K">实例类型</typeparam>
         /// <returns></returns>
         /// <exception cref="System.Exception"></exception>
-        public static K RequiredGetInstance<K>() where K : class
+        public static K RequiredGetInstance<K>()
         {
             Optional<K> optional = GetInstance<K>();
             if (!optional.IsPresent()) {

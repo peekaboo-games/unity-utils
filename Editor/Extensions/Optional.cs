@@ -5,7 +5,7 @@ namespace MyUtils
      * <summary>空对象判断包装器类，用于空对象的判断和操作</summary>
      * <typeparam name="T">数据类型，必须是对象类型</typeparam>
      */
-    public class Optional<T> where T : class
+    public class Optional<T>
     {
 
         public readonly T data;
@@ -44,6 +44,9 @@ namespace MyUtils
          */
         public static Optional<T> OfNullable()
         {
+            if (typeof(T).IsValueType && !typeof(T).IsEnum) {
+                throw new Exception($"Optional T type is '{typeof(T)}' and it is unsupport 'OfNullable' method.");
+            }
             return new Optional<T>();
         }
 
@@ -112,7 +115,7 @@ namespace MyUtils
         /// <typeparam name="U">新的类型</typeparam>
         /// <param name="mapper">转换函数</param>
         /// <returns>结果</returns>
-        public Optional<U> FlatMap<U>(Func<T, Optional<U>> mapper) where U : class{
+        public Optional<U> FlatMap<U>(Func<T, Optional<U>> mapper){
             if (IsPresent())
             {
                 return mapper(data);
