@@ -33,7 +33,7 @@ namespace MyUtils
         private bool IsNullable() {
             if (typeof(T).IsValueType && !typeof(T).IsEnum)
             {
-                return isSetted;
+                return !isSetted;
             }
             return data == null;
         }
