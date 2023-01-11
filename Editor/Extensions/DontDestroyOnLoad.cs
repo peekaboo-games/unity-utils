@@ -61,7 +61,8 @@ namespace MyUtils
         /// <typeparam name="K">实例类型</typeparam>
         /// <param name="_objectName">对象名称</param>
         /// <returns></returns>
-        public static Optional<K> GetInstance<K>(string _objectName) {
+        public static Optional<K> GetInstance<K>(string _objectName) where K : class
+        {
             Optional<GameObject> optional = Get(_objectName);
             if (optional.IsPresent()) {
                 return Optional<K>.Of(optional.Get().GetComponent<K>());
@@ -74,7 +75,7 @@ namespace MyUtils
         /// </summary>
         /// <typeparam name="K">类型</typeparam>
         /// <returns>实例</returns>
-        public static Optional<K> GetInstance<K>() {
+        public static Optional<K> GetInstance<K>() where K : class {
             Optional<GameObject> optional = Get<K>();
             if (optional.IsPresent())
             {
@@ -89,7 +90,8 @@ namespace MyUtils
         /// <typeparam name="K">实例类型</typeparam>
         /// <returns></returns>
         /// <exception cref="System.Exception"></exception>
-        public static K RequiredGetInstance<K>() {
+        public static K RequiredGetInstance<K>() where K : class
+        {
             Optional<K> optional = GetInstance<K>();
             if (!optional.IsPresent()) {
                 throw new System.Exception($"[{typeof(K).Name}]DontDestroyOnLoad is not found.");

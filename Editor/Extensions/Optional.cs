@@ -5,7 +5,7 @@ namespace MyUtils
      * <summary>空对象判断包装器类，用于空对象的判断和操作</summary>
      * <typeparam name="T">数据类型，必须是对象类型</typeparam>
      */
-    public class Optional<T>
+    public class Optional<T> where T : class
     {
 
         public readonly T data;
@@ -21,25 +21,11 @@ namespace MyUtils
         }
 
         /// <summary>
-        /// 是否结构体
-        /// </summary>
-        /// <returns>结构体结果</returns>
-        private bool IsStructType() {
-            Type type = typeof(T);
-            return type.IsValueType && !type.IsEnum && !type.IsPrimitive;
-        }
-        /// <summary>
         /// 是否为空的判断
         /// </summary>
         /// <returns>结果 true 空，false 非空</returns>
         private bool IsNullable() {
-            if (IsStructType()) {
-                return data.Equals(default(T));
-            }
-            if (!typeof(T).IsValueType) {
-                return data == null;
-            }
-            return false;
+            return data == null;
         }
 
         /**
@@ -126,7 +112,7 @@ namespace MyUtils
         /// <typeparam name="U">新的类型</typeparam>
         /// <param name="mapper">转换函数</param>
         /// <returns>结果</returns>
-        public Optional<U> FlatMap<U>(Func<T, Optional<U>> mapper) {
+        public Optional<U> FlatMap<U>(Func<T, Optional<U>> mapper) where U : class{
             if (IsPresent())
             {
                 return mapper(data);
