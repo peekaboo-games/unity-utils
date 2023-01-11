@@ -56,7 +56,7 @@ namespace MyUtils
          */
         public bool IsPresent()
         {
-            return IsNullable();
+            return !IsNullable();
         }
 
         /// <summary>
@@ -72,7 +72,6 @@ namespace MyUtils
         /**
          * <summary>获取当前值，如果值为空</summary>
          * <returns>值</returns>
-         * 
          */
         public T Get()
         {
