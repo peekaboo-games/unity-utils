@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using Newtonsoft.Json;
 using System.IO;
 using System.Text;
-using Newtonsoft.Json;
 using UnityEngine;
 
 public class JSONUtils

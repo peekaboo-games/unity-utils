@@ -8,7 +8,7 @@ namespace MyUtils
     public class Optional<T>
     {
 
-        public readonly T data;
+        public T data { private set; get; }
 
         public T Nullable { private set; get; }
 
@@ -96,6 +96,16 @@ namespace MyUtils
             if (IsPresent()) {
                 consumer(data);
             }
+        }
+
+        /// <summary>
+        /// 设置值
+        /// </summary>
+        /// <param name="dd"></param>
+        /// <returns></returns>
+        public Optional<T> Set(T dd) {
+            this.data = dd;
+            return this;
         }
 
         /**
