@@ -20,7 +20,7 @@ namespace MyUtils
             {
                 return true;
             }
-            return UnityEngine.Random.Range(0, 100) <= precent;
+            return Random.Range(0, 100 + 1) <= precent;
         }
 
         /**
@@ -54,7 +54,7 @@ namespace MyUtils
         /// <returns>元素</returns>
         public static Optional<T> GetOneOfPrecentList<T>(Dictionary<T, int> precents)
         {
-            return GetOneOfPrecentList(precents, UnityEngine.Random.Range(0, 100));
+            return GetOneOfPrecentList(precents, Random.Range(0, 100));
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace MyUtils
                 return new T[0];
             }
             //随机起始位置
-            int start = UnityEngine.Random.Range(0, array.Count() - size);
+            int start = Random.Range(0, array.Count() - size + 1);
             T[] list = new T[size];
             int count = 0;
             for (var i = start; i < start + size; i++)

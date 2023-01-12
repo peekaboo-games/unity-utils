@@ -13,7 +13,7 @@ public class JSONUtils
      */
     public static void Save<T>(T data, string fileName)
     {
-        File.WriteAllText(Application.persistentDataPath + fileName, JsonConvert.SerializeObject(data));
+        File.WriteAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName, JsonConvert.SerializeObject(data));
     }
 
 
@@ -24,7 +24,7 @@ public class JSONUtils
     */
     public static void Save<T>(T data)
     {
-        File.WriteAllText(Application.persistentDataPath + typeof(T).Name, JsonConvert.SerializeObject(data));
+        File.WriteAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + typeof(T).Name, JsonConvert.SerializeObject(data));
     }
 
     /**
@@ -34,7 +34,7 @@ public class JSONUtils
      */
     public static bool Delete(string fileName)
     {
-        FileInfo file = new FileInfo(Application.persistentDataPath + fileName);
+        FileInfo file = new FileInfo(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName);
         // 如果文件不存在，则创建一个新的
         if (file.Exists)
         {
@@ -69,13 +69,13 @@ public class JSONUtils
      */
     public static T Load<T>(string fileName)
     {
-        FileInfo file = new FileInfo(Application.persistentDataPath + fileName);
+        FileInfo file = new FileInfo(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName);
 
         if (!file.Exists)
         {
             return default(T);
         }
-        string data = File.ReadAllText(Application.persistentDataPath + fileName, Encoding.UTF8);
+        string data = File.ReadAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName, Encoding.UTF8);
         return JsonConvert.DeserializeObject<T>(data);
     }
     /**
