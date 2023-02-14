@@ -16,7 +16,17 @@ public class JSONUtils
         File.WriteAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName, JsonConvert.SerializeObject(data));
     }
 
-
+    /// <summary>
+    /// 异步保存数据
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="data"></param>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    public static async Task SaveAsync<T>(T data, string fileName)
+    {
+        await File.WriteAllTextAsync(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName, JsonConvert.SerializeObject(data));
+    }
 
     /**
     * <summary>保存一个json对象，文件名是 typeof name</summary>
@@ -24,7 +34,12 @@ public class JSONUtils
     */
     public static void Save<T>(T data)
     {
-        File.WriteAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + typeof(T).Name, JsonConvert.SerializeObject(data));
+        Save(data, typeof(T).Name);
+    }
+
+    public static async Task SaveAsync<T>(T data)
+    {
+        await SaveAsync(data, typeof(T).Name);
     }
 
     /**
@@ -34,7 +49,7 @@ public class JSONUtils
      */
     public static bool Delete(string fileName)
     {
-        FileInfo file = new FileInfo(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName);
+        FileInfo file = new(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName);
         // 如果文件不存在，则创建一个新的
         if (file.Exists)
         {
@@ -57,7 +72,7 @@ public class JSONUtils
      * <summary>将 object 序列化成 json</summary>
      * <param name="data">要序列化的数据</param>
      */
-    public static string toJSON(object data)
+    public static string ToJSON(object data)
     {
         return JsonConvert.SerializeObject(data);
     }
@@ -69,15 +84,31 @@ public class JSONUtils
      */
     public static T Load<T>(string fileName)
     {
-        FileInfo file = new FileInfo(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName);
-
+        FileInfo file = new(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName);
         if (!file.Exists)
         {
-            return default(T);
+            return default;
         }
         string data = File.ReadAllText(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName, Encoding.UTF8);
         return JsonConvert.DeserializeObject<T>(data);
     }
+
+    public static Task<T> LoadAsync<T>()
+    {
+        return LoadAsync<T>(typeof(T).Name);
+    }
+
+    public static async Task<T> LoadAsync<T>(string fileName)
+    {
+        FileInfo file = new(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName);
+        if (!file.Exists)
+        {
+            return default;
+        }
+        string data = await File.ReadAllTextAsync(Application.persistentDataPath + Path.DirectorySeparatorChar + fileName, Encoding.UTF8);
+        return JsonConvert.DeserializeObject<T>(data);
+    }
+
     /**
      * <summary>加载数据，文件名是 typeof name</summary>
      * <returns>加载完的数据</returns>
