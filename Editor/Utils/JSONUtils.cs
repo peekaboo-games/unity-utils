@@ -14,7 +14,7 @@ public class JSONUtils
      */
     public static void Save<T>(T data, string fileName)
     {
-        SaveAsync(data, fileName).Wait();
+        SaveAsync(data, fileName);
     }
 
     /// <summary>
